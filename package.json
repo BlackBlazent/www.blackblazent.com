@@ -2,7 +2,7 @@
   "name": "BlackBlazent",
   "version": "1.0.0",
   "description": "This project aims to build a professional and user-friendly website for BlackBlazent, showcasing our services, products, and company information. The website will be responsive, easy to navigate, and provide an optimal user experience across all devices.",
-  "main": "index.js",
+  "main": "/src/index.html",
   "type": "module",
   "scripts": {
     "start": "node ./app/database/server/local_server.js",
