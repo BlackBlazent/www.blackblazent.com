@@ -88,5 +88,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 For any questions or concerns related to the website, feel free to contact us:
 
-- **Email**: contact@blackblazent.com
+- **Email**: blackblazent@gmail.com
 - **Website**: [www.blackblazent.com](https://www.blackblazent.com)
