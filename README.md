@@ -82,7 +82,7 @@ Please ensure your code is well-documented and tested before submitting a pull r
 
 ## License 📄
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/BlackBlazent/www.blackblazent.com/blob/main/License/LICENSE-CC-BY-4.0) file for details.
 
 ## Contact Us 📧
 
