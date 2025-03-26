@@ -69,17 +69,6 @@ To get the project up and running locally, follow these steps:
 3. **Run the website locally**:
    - You can simply open the `index.html` file in your browser to view the website.
 
-## Contributing 🤝
-
-We welcome contributions to the website project! If you'd like to contribute:
-
-1. Fork the repository
-2. Create a new branch for your feature or bug fix
-3. Make changes and commit them
-4. Push to your fork and create a pull request
-
-Please ensure your code is well-documented and tested before submitting a pull request.
-
 ## License 📄
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/BlackBlazent/www.blackblazent.com/blob/main/License/LICENSE-CC-BY-4.0) file for details.
