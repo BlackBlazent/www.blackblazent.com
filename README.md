@@ -9,4 +9,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 For any questions or concerns related to the website, feel free to contact us:
 
 - **Email**: blackblazent@gmail.com
-- **Website**: [www.blackblazent.com](https://www.blackblazent.com)
+- **Website**: [www.blackblazent.com](https://www-blackblazent-com.vercel.app)
