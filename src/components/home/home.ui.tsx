@@ -78,10 +78,10 @@ const HomeUI: React.FC = () => {
           <span>BlackBlazent</span>
         </div>
         <div className="social-icons">
-          <a target="_blank" href="#" className="social-icon instagram"><img style={{ width: '16px', height: '16px' }} src="./src/assets/icons/others/instagram.png" alt="Instagram" /></a>
-          <a target="_blank" href="https://www.facebook.com/profile.php?id=61565193375253" className="social-icon facebook"><img style={{ width: '16px', height: '16px' }} src="./src/assets/icons/others/facebook.png" alt="Facebook" /></a>
-          <a target="_blank" href="https://www.tiktok.com/@blackblazent" className="social-icon tiktok"><img style={{ width: '16px', height: '16px' }} src="./src/assets/icons/others/tiktok.png" alt="TikTok" /></a>
-          <a target="_blank" href="https://www.youtube.com/@BlackBlazent" className="social-icon youtube"><img style={{ width: '16px', height: '16px' }} src="./src/assets/icons/others/youtube.png" alt="YouTube" /></a>
+          <a target="_blank" href="#" className="social-icon instagram"><img style={{ width: '16px', height: '16px' }} src="/src/assets/icons/others/instagram.png" alt="Instagram" /></a>
+          <a target="_blank" href="https://www.facebook.com/profile.php?id=61565193375253" className="social-icon facebook"><img style={{ width: '16px', height: '16px' }} src="/src/assets/icons/others/facebook.png" alt="Facebook" /></a>
+          <a target="_blank" href="https://www.tiktok.com/@blackblazent" className="social-icon tiktok"><img style={{ width: '16px', height: '16px' }} src="/src/assets/icons/others/tiktok.png" alt="TikTok" /></a>
+          <a target="_blank" href="https://www.youtube.com/@BlackBlazent" className="social-icon youtube"><img style={{ width: '16px', height: '16px' }} src="/src/assets/icons/others/youtube.png" alt="YouTube" /></a>
         </div>
       </footer>
     </div>
