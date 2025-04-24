@@ -1,0 +1,72 @@
+/* Year Block Container CSS */
+.year-block-container {
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  background-color: #e6b800;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Year selector section */
+.year-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid white;
+}
+
+/* Years list styles */
+.years-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Arrow styles */
+.arrow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid black;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black;
+}
+
+/* Copyright section */
+.copyright-section {
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  height: 200px;
+}
+
+.copyright-text {
+  white-space: nowrap;
+}
