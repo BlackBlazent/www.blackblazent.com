@@ -140,8 +140,8 @@ const BlackBlazentUI: React.FC = () => {
           </div>
         </div>
         <div className='page-bot-indicator'>
-          <div className='search-address tab-section'><img title='Search...' style={{width: 16, height: 16}} src='./src/assets/icons/navigations/search.png'/></div>
-          <div className='user-account tab-section'><img title='User Account' style={{width: 16, height: 16}} src='./src/assets/icons/navigations/account.png'/></div>
+          <div className='search-address tab-section'><img title='Search...' style={{width: 16, height: 16}} src='https://github.com/BlackBlazent/www.blackblazent.com/blob/main/src/assets/icons/navigations/search.png'/></div>
+          <div className='user-account tab-section'><img title='User Account' style={{width: 16, height: 16}} src='https://github.com/BlackBlazent/www.blackblazent.com/blob/main/src/assets/icons/navigations/account.png'/></div>
         </div>
       </div>
 
