@@ -75,7 +75,7 @@
 
 .privacy-user-meta {
   padding: 15px;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 15px;
 }
@@ -112,7 +112,7 @@
 }
 
 .privacy-button-group {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   padding: 0 15px 15px;
   gap: 8px;
@@ -164,7 +164,7 @@
 .privacy-list-title {
   padding: 10px 15px;
   background: #ffef00;
-  margin: 5px 0;
+  margin: 0; /* 5px 0 */
 }
 
 .privacy-list-tag {
