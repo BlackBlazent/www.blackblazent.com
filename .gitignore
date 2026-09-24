@@ -1,11 +1,13 @@
 # Logs
 logs
 *.log
+.VSCodeCounter/*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+lerna-debug.log*\
+bulk_gits_commits.py
 
 node_modules
 dist
