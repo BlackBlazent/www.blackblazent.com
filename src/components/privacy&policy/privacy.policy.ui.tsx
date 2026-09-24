@@ -33,7 +33,7 @@ const PrivacyPolicyUI: React.FC = () => {
   return (
     <div className="main-content" id="for-privacy">
       <div className="privacy-header">
-        <h1 className="privacy-title">BLAZER's! <span className="privacy-subtitle">PRIVACY & POLICY</span></h1>
+        <h1 className="privacy-title"><span className="privacy-subtitle">PRIVACY & POLICY</span></h1>
       </div>
       
       <div className="privacy-panel-row">
