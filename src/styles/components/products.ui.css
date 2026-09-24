@@ -11,6 +11,9 @@
 }
 
 /* Main container */
+#for-products {
+  width: 100%;
+}
 .products-container {
   width: 100%;
   min-height: 100vh;
