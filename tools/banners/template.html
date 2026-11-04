@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+@font-face { font-family: 'Serif'; src: url('serif.woff2') format('woff2'); }
+@font-face { font-family: 'Grotesk'; src: url('grotesk.woff2') format('woff2'); font-weight: 300 700; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { background: var(--bg); display: flex; align-items: center; justify-content: center; }
+#stage { width: 1600px; height: 760px; position: relative; flex: none; overflow: hidden; background: var(--bg); }
+#glow { position: absolute; inset: 0; }
+svg { position: absolute; inset: 0; }
+.tag {
+  position: absolute; left: 104px; top: 118px;
+  font-family: 'Grotesk', sans-serif; font-weight: 600; font-size: 21px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.72); padding: 11px 20px; border: 1px solid rgba(255,255,255,0.22); border-radius: 100px;
+  background: rgba(255,255,255,0.04);
+}
+.title {
+  position: absolute; left: 100px; bottom: 150px;
+  font-family: 'Serif', serif; font-size: 126px; line-height: 0.98; letter-spacing: -0.01em; color: #f6f2ee; white-space: pre;
+}
+.brand {
+  position: absolute; left: 104px; bottom: 70px;
+  font-family: 'Grotesk', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+}
+.edge { position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glow"></div>
+  <svg id="art" width="1600" height="760" viewBox="0 0 1600 760" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="tag" id="tag"></div>
+  <div class="title" id="title"></div>
+  <div class="brand" id="brand"></div>
+  <div class="edge"></div>
+</div>
+<script>
+const D = __DATA__;
+const P = D.palette;
+document.documentElement.style.setProperty('--bg', P.bg);
+const stage = document.getElementById('stage');
+const scale = Math.min(D.w / 1600, D.h / 760);
+stage.style.transform = `scale(${scale})`;
+document.getElementById('tag').textContent = D.tag;
+document.getElementById('title').textContent = D.title;
+document.getElementById('brand').textContent = D.brand;
+if (!D.title) { ['tag','title','brand'].forEach(i => document.getElementById(i).style.display = 'none'); }
+const maxc = Math.max(1, ...D.title.split('\n').map(l => l.length));
+const fs = Math.min(D.og ? 136 : 126, Math.floor(1750 / maxc));
+document.getElementById('title').style.fontSize = fs + 'px';
+
+function rng(seed) { let a = seed * 2654435761 >>> 0; return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const R = rng(D.seed);
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('art');
+const CX = 1130, CY = 380;
+
+function el(name, attrs, parent) {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  (parent || svg).appendChild(e);
+  return e;
+}
+const defs = el('defs', {});
+function grad(id, stops, x1 = 0, y1 = 0, x2 = 0, y2 = 1) {
+  const g = el('linearGradient', { id, x1, y1, x2, y2 }, defs);
+  stops.forEach(([o, c, op]) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': op == null ? 1 : op }, g));
+}
+grad('gAB', [[0, P.a], [1, P.b]], 0, 0, 0, 1);
+grad('gBA', [[0, P.b], [1, P.a]], 0, 0, 0, 1);
+grad('gAC', [[0, P.a], [1, P.c]], 0, 0, 1, 1);
+grad('fade', [[0, '#fff', 0.14], [1, '#fff', 0]], 0, 0, 0, 1);
+
+// soft glow behind the motif (radial gradients only, no noise textures)
+document.getElementById('glow').style.background =
+  `radial-gradient(620px 520px at ${CX}px ${CY}px, ${P.a}38 0%, ${P.a}12 45%, transparent 72%),` +
+  `radial-gradient(380px 300px at ${CX + 220}px ${CY - 150}px, ${P.b}26 0%, transparent 70%),` +
+  `radial-gradient(900px 500px at 0px 800px, #ffffff08 0%, transparent 70%)`;
+
+const M = {
+  wave() {
+    const n = 46, x0 = 800, step = 15.5, mid = CY;
+    for (let i = 0; i < n; i++) {
+      const t = i / (n - 1);
+      const env = Math.sin(Math.PI * t) ** 1.2;
+      const h = 30 + (env * 250) * (0.35 + R() * 0.65);
+      const x = x0 + i * step;
+      el('rect', { x, y: mid - h / 2, width: 8, height: h, rx: 4, fill: 'url(#gAB)', opacity: 0.35 + env * 0.65 });
+      el('rect', { x, y: mid + h / 2 + 14, width: 8, height: h * 0.3, rx: 4, fill: P.a, opacity: 0.08 });
+    }
+    el('line', { x1: 780, x2: 1560, y1: mid, y2: mid, stroke: '#fff', 'stroke-opacity': 0.08 });
+  },
+  vinyl() {
+    el('circle', { cx: CX, cy: CY, r: 292, fill: '#0b0a0d', stroke: '#fff', 'stroke-opacity': 0.1, 'stroke-width': 1.5 });
+    for (let r = 112; r < 282; r += 7) {
+      el('circle', { cx: CX, cy: CY, r, fill: 'none', stroke: '#fff', 'stroke-opacity': R() > 0.82 ? 0.14 : 0.045, 'stroke-width': 1 });
+    }
+    const wedge = (a0, a1, op) => {
+      const r = 288, p = (a) => [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+      const [x0, y0] = p(a0), [x1, y1] = p(a1);
+      el('path', { d: `M${CX} ${CY} L${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1} Z`, fill: `url(#fade)`, opacity: op });
+    };
+    wedge(-2.2, -1.75, 0.9); wedge(0.95, 1.4, 0.7);
+    el('circle', { cx: CX, cy: CY, r: 96, fill: 'url(#gAC)' });
+    el('circle', { cx: CX, cy: CY, r: 96, fill: 'none', stroke: '#000', 'stroke-opacity': 0.25, 'stroke-width': 2 });
+    el('circle', { cx: CX, cy: CY, r: 68, fill: 'none', stroke: '#000', 'stroke-opacity': 0.18, 'stroke-width': 1 });
+    el('circle', { cx: CX, cy: CY, r: 9, fill: P.bg });
+    // tonearm
+    el('line', { x1: 1500, y1: 120, x2: 1330, y2: 320, stroke: '#cfcfd4', 'stroke-opacity': 0.55, 'stroke-width': 7, 'stroke-linecap': 'round' });
+    el('circle', { cx: 1510, cy: 108, r: 26, fill: '#17161a', stroke: '#fff', 'stroke-opacity': 0.2 });
+    el('rect', { x: 1300, y: 308, width: 46, height: 20, rx: 4, fill: '#d9d9de', 'fill-opacity': 0.7, transform: 'rotate(-49 1323 318)' });
+  },
+  rings() {
+    for (let i = 0; i < 7; i++) {
+      const r = 70 + i * 48;
+      el('circle', { cx: CX, cy: CY, r, fill: 'none', stroke: '#fff', 'stroke-opacity': 0.09, 'stroke-width': 1.2, 'stroke-dasharray': i % 2 ? '2 9' : 'none' });
+    }
+    const arc = (r, a0, a1, w, col) => {
+      const p = (a) => [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+      const [x0, y0] = p(a0), [x1, y1] = p(a1);
+      el('path', { d: `M${x0} ${y0} A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1} ${y1}`, fill: 'none', stroke: col, 'stroke-width': w, 'stroke-linecap': 'round' });
+    };
+    arc(118, -2.6, -0.4, 6, P.a); arc(214, 0.3, 2.3, 6, P.b); arc(310, 3.4, 4.6, 5, P.a);
+    el('circle', { cx: CX, cy: CY, r: 30, fill: 'url(#gAC)' });
+    for (let i = 0; i < 9; i++) {
+      const r = 70 + Math.floor(R() * 7) * 48, a = R() * 6.28;
+      el('circle', { cx: CX + r * Math.cos(a), cy: CY + r * Math.sin(a), r: 4 + R() * 4, fill: i % 3 ? P.b : P.a });
+    }
+  },
+  nodes() {
+    const pts = [];
+    for (let i = 0; i < 26; i++) pts.push([820 + R() * 700, 90 + R() * 600, R() > 0.78 ? 12 : 5 + R() * 4]);
+    pts.forEach((a, i) => {
+      pts.map((b, j) => [Math.hypot(a[0] - b[0], a[1] - b[1]), j]).filter(([, j]) => j !== i).sort((x, y) => x[0] - y[0]).slice(0, 2)
+        .forEach(([d, j]) => { if (d < 230) el('line', { x1: a[0], y1: a[1], x2: pts[j][0], y2: pts[j][1], stroke: '#fff', 'stroke-opacity': 0.16 }); });
+    });
+    pts.forEach(([x, y, r], i) => {
+      if (r >= 12) { el('circle', { cx: x, cy: y, r: r + 14, fill: 'none', stroke: P.a, 'stroke-opacity': 0.35 }); el('circle', { cx: x, cy: y, r, fill: 'url(#gAB)' }); }
+      else el('circle', { cx: x, cy: y, r, fill: i % 2 ? '#fff' : P.b, 'fill-opacity': 0.8 });
+    });
+  },
+  layers() {
+    for (let k = 0; k < 5; k++) {
+      const y = CY + 150 - k * 64, o = 0.14 + k * 0.1;
+      const g = el('g', { transform: `translate(${CX} ${y}) scale(1 0.5) rotate(45)` });
+      el('rect', { x: -170, y: -170, width: 340, height: 340, rx: 26, fill: k === 4 ? 'url(#gAC)' : '#ffffff', 'fill-opacity': k === 4 ? 0.95 : 0.04 + k * 0.015, stroke: k === 4 ? 'none' : (k % 2 ? P.b : P.a), 'stroke-opacity': o + 0.2, 'stroke-width': 2 }, g);
+    }
+  },
+  lock() {
+    for (let i = 0; i < 4; i++) el('circle', { cx: CX, cy: CY, r: 150 + i * 62, fill: 'none', stroke: '#fff', 'stroke-opacity': 0.07 - i * 0.012 });
+    el('path', { d: `M${CX - 86} ${CY - 40} V${CY - 100} a86 86 0 0 1 172 0 V${CY - 40}`, fill: 'none', stroke: '#e9e6e3', 'stroke-opacity': 0.8, 'stroke-width': 22, 'stroke-linecap': 'round' });
+    el('rect', { x: CX - 150, y: CY - 50, width: 300, height: 230, rx: 34, fill: 'url(#gAC)' });
+    el('rect', { x: CX - 150, y: CY - 50, width: 300, height: 230, rx: 34, fill: 'none', stroke: '#fff', 'stroke-opacity': 0.25, 'stroke-width': 2 });
+    el('circle', { cx: CX, cy: CY + 60, r: 26, fill: P.bg });
+    el('rect', { x: CX - 9, y: CY + 70, width: 18, height: 56, rx: 8, fill: P.bg });
+  },
+  sliders() {
+    const n = 8, x0 = 860, step = 84;
+    for (let i = 0; i < n; i++) {
+      const x = x0 + i * step, top = 150, bot = 610, v = 0.2 + R() * 0.65, ky = bot - (bot - top) * v;
+      el('rect', { x: x - 3, y: top, width: 6, height: bot - top, rx: 3, fill: '#fff', 'fill-opacity': 0.1 });
+      el('rect', { x: x - 3, y: ky, width: 6, height: bot - ky, rx: 3, fill: i % 2 ? 'url(#gBA)' : 'url(#gAB)' });
+      el('circle', { cx: x, cy: ky, r: 17, fill: '#f2efec' });
+      el('circle', { cx: x, cy: ky, r: 17, fill: 'none', stroke: i % 2 ? P.b : P.a, 'stroke-width': 4 });
+    }
+  },
+  radial() {
+    const n = 96;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2, r0 = 150, h = 22 + R() * 120 * (0.4 + 0.6 * Math.abs(Math.sin(a * 2.1 + 0.6)));
+      el('line', { x1: CX + r0 * Math.cos(a), y1: CY + r0 * Math.sin(a), x2: CX + (r0 + h) * Math.cos(a), y2: CY + (r0 + h) * Math.sin(a), stroke: i % 5 ? P.a : P.b, 'stroke-width': 6, 'stroke-linecap': 'round', 'stroke-opacity': 0.55 + h / 400 });
+    }
+    el('circle', { cx: CX, cy: CY, r: 128, fill: 'none', stroke: '#fff', 'stroke-opacity': 0.16 });
+    el('circle', { cx: CX, cy: CY, r: 54, fill: 'url(#gAC)' });
+  },
+  doc() {
+    [[-9, -50, 0.05], [0, 0, 0.07], [8, 52, 0.1]].forEach(([rot, dx, o], i) => {
+      const g = el('g', { transform: `translate(${CX + dx} ${CY}) rotate(${rot})` });
+      el('rect', { x: -170, y: -230, width: 340, height: 460, rx: 22, fill: '#fff', 'fill-opacity': o, stroke: '#fff', 'stroke-opacity': 0.18, 'stroke-width': 1.5 }, g);
+      if (i === 2) {
+        el('rect', { x: -130, y: -190, width: 150, height: 22, rx: 11, fill: 'url(#gAB)' }, g);
+        for (let l = 0; l < 9; l++) el('rect', { x: -130, y: -130 + l * 34, width: l % 4 === 3 ? 160 : 260, height: 10, rx: 5, fill: '#fff', 'fill-opacity': 0.2 }, g);
+        el('circle', { cx: 112, cy: 176, r: 26, fill: 'none', stroke: P.a, 'stroke-width': 4 }, g);
+      }
+    });
+  },
+  spectrum() {
+    const cols = 30, rows = 15, x0 = 820, y0 = 170, s = 24;
+    for (let c = 0; c < cols; c++) {
+      const level = 0.15 + 0.85 * Math.abs(Math.sin(c * 0.37 + D.seed)) * (0.5 + 0.5 * Math.sin(c * 0.13 + 1));
+      for (let r = 0; r < rows; r++) {
+        const on = (rows - r) / rows <= level;
+        el('circle', { cx: x0 + c * s, cy: y0 + r * s * 1.5, r: on ? 5.5 : 2.4, fill: on ? (r % 3 ? P.a : P.b) : '#fff', 'fill-opacity': on ? 0.9 - r * 0.02 : 0.12 });
+      }
+    }
+  },
+};
+M[D.motif]();
+</script>
+</body>
+</html>
