@@ -8,13 +8,13 @@ const CompanySub: React.FC = () => {
   const { slug } = useParams();
   const page = COMPANY_PAGES.find((p) => p.slug === slug);
 
-  if (!page || page.slug === 'about') return <Navigate to="/company" replace />;
+  if (!page || page.slug === 'about') return <Navigate to="/about" replace />;
 
   return (
     <>
       <div className="page-hero">
         <div className="crumbs">
-          <Link to="/company">Company</Link> / {page.title}
+          <Link to="/about">About</Link> / {page.title}
         </div>
         <Reveal>
           <div className="eyebrow">Company</div>
