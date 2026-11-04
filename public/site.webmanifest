@@ -1,0 +1,12 @@
+{
+  "name": "BlackBlazent",
+  "short_name": "BlackBlazent",
+  "start_url": "/home",
+  "display": "standalone",
+  "background_color": "#030303",
+  "theme_color": "#030303",
+  "description": "BlackBlazent is an independent software organization creating hybrid, cross-platform applications, designed with passion, purpose, and precision.",
+  "icons": [{ "src": "/favicon.png", "sizes": "256x256", "type": "image/png" }],
+  "orientation": "portrait-primary",
+  "lang": "en"
+}
