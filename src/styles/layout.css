@@ -27,7 +27,7 @@
   align-items: center;
   gap: 10px;
 }
-.nav-mark-dot { width: 7px; height: 7px; background: var(--blaze); border-radius: 1px; flex-shrink: 0; }
+.nav-mark-dot { width: 40px; height: 40px; background: none; border-radius: 1px; flex-shrink: 0; } /*var(--blaze)*/
 
 .nav-links {
   display: flex;
