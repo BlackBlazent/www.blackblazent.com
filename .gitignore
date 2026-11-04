@@ -8,6 +8,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*\
 bulk_gits_commits.py
+git/*
+task/*
 
 node_modules
 dist
