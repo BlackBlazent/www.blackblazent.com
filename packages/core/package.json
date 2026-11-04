@@ -1,0 +1,23 @@
+{
+  "name": "@blackblazent/core",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared configuration, content, components and styles for the BlackBlazent website and product sites.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles/core.css"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource-variable/space-grotesk": "^5.2.5",
+    "framer-motion": "^12.4.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4"
+  }
+}
