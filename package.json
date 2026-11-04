@@ -7,13 +7,18 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:blackmusic": "pnpm --filter @blackblazent/blackmusic build",
+    "build:all": "pnpm build && pnpm build:blackmusic",
+    "dev:blackmusic": "pnpm --filter @blackblazent/blackmusic dev",
+    "banners": "python3 tools/banners/generate.py"
   },
   "dependencies": {
     "framer-motion": "^12.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.6.0"
+    "react-router-dom": "^7.6.0",
+    "@blackblazent/core": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
