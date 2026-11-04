@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from '../content/site-data';
+import logo from '../assets/icons/blackblazer-mark.png';
 
 const Nav: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -20,31 +21,26 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   return (
     <>
       <header className={`nav${scrolled ? ' scrolled' : ''}`}>
-        <Link to="/" className="nav-mark" aria-label="BlackBlazent home">
-          <span className="nav-mark-dot" />
+        <Link to="/home" className="nav-mark" aria-label="BlackBlazent home">
+          <img className="nav-mark-dot" src={logo} alt="" width={40} height={40} />
           BlackBlazent
         </Link>
 
         <nav className="nav-links" aria-label="Primary">
           {NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}
-            >
+            <NavLink key={link.to} to={link.to} className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
               {link.label}
             </NavLink>
           ))}
         </nav>
 
-        <Link to="/products" className="btn btn-outline nav-cta">
-          Explore Products
-        </Link>
+        <Link to="/products" className="btn btn-outline nav-cta">Explore Products</Link>
 
         <button
           className={`nav-burger${open ? ' open' : ''}`}
@@ -59,11 +55,7 @@ const Nav: React.FC = () => {
       {open && (
         <div className="nav-mobile-panel" role="dialog" aria-modal="true">
           {NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}
-            >
+            <NavLink key={link.to} to={link.to} className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
               {link.label}
             </NavLink>
           ))}
