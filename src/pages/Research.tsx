@@ -11,9 +11,9 @@ const Research: React.FC = () => {
           <div className="eyebrow">Research</div>
           <h1 className="h-display">Beyond today&rsquo;s software.</h1>
           <p className="body-copy" style={{ marginTop: 18 }}>
-            Alongside shipped products, we explore ideas that may or may not become
-            products. Every area below is labeled plainly &mdash; active development,
-            experimental work, or future concept &mdash; so it&rsquo;s never mistaken for
+            Alongside released products, we explore ideas that may or may not become
+            products. Every area below is labeled plainly as active development,
+            experimental work, or a future concept, so it is never mistaken for
             a finished product.
           </p>
         </Reveal>
