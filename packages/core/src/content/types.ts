@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type ProductId = 'blackmusic' | 'vineward' | 'blackvideo' | 'blackgallery';
 export type PlatformId = 'windows' | 'macos' | 'linux' | 'android-tv' | 'android' | 'ios';
 
@@ -25,6 +27,8 @@ export type ArticleSection = {
 };
 
 export type Product = {
+  future: ReactNode;
+  slug: string | undefined;
   id: ProductId;
   name: string;
   /** Secondary name shown beside the title, for example a codename. */
