@@ -1,0 +1,4 @@
+/* Site wide additions for the BlackBlazent website. Shared tokens and layout live in @blackblazent/core. */
+.hero-title .word-mask, .p-title .word-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; }
+.hero-title .word { display: inline-block; }
+.hero-title .word-mask { margin: 0 0.14em; }
