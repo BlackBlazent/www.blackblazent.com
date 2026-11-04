@@ -1,162 +1,136 @@
+import { getEnabledProducts } from '@blackblazent/core';
+
+export { SOCIAL_LINKS } from '@blackblazent/core';
+
 export const NAV_LINKS = [
   { label: 'Products', to: '/products' },
   { label: 'Solutions', to: '/solutions' },
   { label: 'Research', to: '/research' },
   { label: 'Engineering', to: '/engineering' },
   { label: 'Resources', to: '/resources' },
-  { label: 'Company', to: '/company' },
+  { label: 'About', to: '/about' },
 ];
 
-export type Product = {
-  slug: string;
-  name: string;
-  tagline: string;
-  description: string;
-  status: 'Shipped' | 'In development' | 'Concept';
-  category: string;
-  capabilities: string[];
-  technology: string[];
-  future: string;
+export type SolutionArea = {
+  id: string;
+  title: string;
+  summary: string;
+  body: string;
+  items?: { title: string; text: string }[];
+  note?: string;
 };
 
-export const PRODUCTS: Product[] = [
+/** Consumer products are listed from the product configuration so disabled products never appear. */
+export const consumerProductNames = (): string => getEnabledProducts().map((p) => p.name).join(', ');
+
+export const SOLUTION_AREAS: SolutionArea[] = [
   {
-    slug: 'blackvideo',
-    name: 'BlackVideo',
-    tagline: 'A video player built for versatile, cross-platform playback.',
-    description:
-      'BlackVideo is a hybrid desktop video application focused on wide-ranging playback capability rather than a narrow feature set. It is built as a serious media product, not a stripped-down utility.',
-    status: 'Shipped',
-    category: 'Media',
-    capabilities: [
-      'Cross-platform hybrid desktop playback',
-      'Extensible architecture for future functionality',
-      'Local-first operation',
+    id: 'consumer',
+    title: 'Consumer Applications and Software',
+    summary: 'Everyday software for people',
+    body:
+      'Music, video, photos and community tools that work on the devices people already own. Each product keeps the person in charge of their own library and their own data.',
+  },
+  {
+    id: 'government',
+    title: 'Government Applications',
+    summary: 'Software for public institutions',
+    body:
+      'Software solutions designed for government institutions and public sector operations, where reliability, clear records and accountability matter as much as features.',
+  },
+  {
+    id: 'security',
+    title: 'Operating Systems, Security and Forensics',
+    summary: 'Tools for people who defend and investigate',
+    body:
+      'Operating system distributions and tools focused on cybersecurity, ethical hacking, digital forensics and incident response, built for practitioners who need dependable ground to work from.',
+  },
+  {
+    id: 'defense',
+    title: 'Defense Technology',
+    summary: 'Mission software with a limited scope',
+    body:
+      'Our defense technology capabilities are listed below. BlackBlazent limits the scope of these products and projects, and details are shared selectively.',
+    items: [
+      { title: 'Multi-Domain Data Fusion Platforms', text: 'Bringing data from many sources and domains into one coherent picture.' },
+      { title: 'Command and Control and Operational Planning', text: 'Software that supports planning and coordination of operations.' },
+      { title: 'Predictive Analytics and Targeting Engines', text: 'Analytical engines that model likely outcomes and support decisions.' },
+      { title: 'Defense AI and LLM Orchestration', text: 'Coordinating language models and AI systems inside controlled environments.' },
+      { title: 'Military Logistics and Supply Chain Software', text: 'Planning and tracking the movement of people, equipment and supplies.' },
+      { title: 'Edge Computing Applications', text: 'Software that keeps working close to the field, even with limited connectivity.' },
     ],
-    technology: ['React', 'TypeScript', 'Rust', 'Tauri'],
-    future:
-      'Future direction includes deeper extensibility and assistant-oriented capabilities, developed incrementally rather than promised in advance.',
+    note: 'For additional information, refer to Black Corp: Intelligence.',
   },
   {
-    slug: 'blackmusic',
-    name: 'BlackMusic',
-    tagline: 'Music Ultra Superior Integrated Catalog.',
-    description:
-      'BlackMusic is a music application designed to deliver a superior playback experience around an integrated catalog, built with the same hybrid, cross-platform philosophy as the rest of the BlackBlazent product line.',
-    status: 'In development',
-    category: 'Media',
-    capabilities: ['Catalog integration', 'Playback-focused interface'],
-    technology: ['React', 'TypeScript'],
-    future: 'Active development. Capabilities will be published as they ship.',
-  },
-  {
-    slug: 'blackgallery',
-    name: 'BlackGallery',
-    tagline: 'A visual library for organizing and displaying images.',
-    description:
-      'BlackGallery is a gallery application designed to showcase and organize visual content, with a focus on a luminous, vibrant display and an efficient library structure.',
-    status: 'Shipped',
-    category: 'Creative',
-    capabilities: ['Visual content library', 'Organizational tooling for image collections'],
-    technology: ['React', 'TypeScript'],
-    future: 'Continued refinement of display and organization features.',
-  },
-  {
-    slug: 'blackmiscellen',
-    name: 'BlackMiscellen',
-    tagline: 'An integrated collection of miscellaneous tools.',
-    description:
-      'BlackMiscellen brings together a set of smaller, practical utilities under one roof — everyday tools that don\u2019t warrant a standalone product but still deserve to be built with care.',
-    status: 'Shipped',
-    category: 'Utility',
-    capabilities: ['Integrated utility set', 'Practical, everyday tooling'],
-    technology: ['React', 'TypeScript'],
-    future: 'The utility set will grow as needs are identified.',
+    id: 'ai',
+    title: 'Artificial Intelligence and AGI',
+    summary: 'Research toward general intelligence',
+    body:
+      'Research and development focused on Artificial Intelligence and Artificial General Intelligence, carried out alongside the products and used where it earns its place in them.',
   },
 ];
 
-export const SOLUTIONS = [
-  {
-    title: 'Media',
-    body: 'Playback and catalog software for video and music, built for cross-platform reach rather than a single environment.',
-  },
-  {
-    title: 'Creativity',
-    body: 'Tools for organizing, displaying, and working with visual content.',
-  },
-  {
-    title: 'Productivity',
-    body: 'Practical software that supports daily work rather than adding process for its own sake.',
-  },
-  {
-    title: 'Utilities',
-    body: 'Small, well-built tools that solve one problem cleanly, collected under a single integrated set.',
-  },
-  {
-    title: 'Intelligent Software',
-    body: 'Early-stage exploration into assistant-oriented and AI-adjacent functionality inside existing and future products.',
-  },
-  {
-    title: 'Cross-Platform Applications',
-    body: 'A hybrid technology approach so the same product idea can reach desktop, web, and mobile without starting over.',
-  },
+export const HYBRID_POINTS = [
+  { title: 'Capability', text: 'Software that runs where people are: on a desk, in a pocket, on a living room screen, or at the edge of a network.' },
+  { title: 'Adaptability', text: 'A product can grow into a new environment without being rebuilt from nothing. The idea stays intact while the form changes.' },
+  { title: 'Integration', text: 'Local data, online services and intelligent features are joined deliberately, so each one adds to the product without taking control of it.' },
+  { title: 'Purpose', text: 'Every combination exists to serve a person or a mission. If a layer does not improve the result, it does not ship.' },
 ];
 
 export type ResearchStatus = 'Active development' | 'Experimental work' | 'Future concept';
 
 export const RESEARCH_AREAS: { title: string; status: ResearchStatus; body: string }[] = [
   {
-    title: 'Experimental Software',
-    status: 'Experimental work',
-    body: 'Early prototypes exploring ideas that may or may not become products.',
+    title: 'Artificial General Intelligence',
+    status: 'Future concept',
+    body: 'Long range research into general intelligence and where it could responsibly support the products we build.',
   },
   {
     title: 'Intelligent Systems',
-    status: 'Future concept',
-    body: 'Exploring where assistant-oriented and AI-adjacent capability could meaningfully help inside our products.',
+    status: 'Experimental work',
+    body: 'Assistant oriented and AI adjacent capability, tested inside controlled prototypes before it reaches any product.',
   },
   {
     title: 'Media Technology',
     status: 'Active development',
-    body: 'Playback, catalog, and media-handling technology feeding directly into BlackVideo and BlackMusic.',
+    body: 'Playback, catalog and media handling work that feeds directly into BlackMusic and our other media products.',
   },
   {
     title: 'Cross-Platform Architecture',
     status: 'Active development',
-    body: 'Hybrid architecture work — React/TypeScript frontends paired with native layers where it earns its place.',
+    body: 'Ways to carry one product across desktop, mobile and living room screens while keeping a single experience.',
   },
   {
     title: 'Emerging Interfaces',
     status: 'Experimental work',
-    body: 'Interaction models we\u2019re testing internally before they reach any product.',
+    body: 'Interaction models we test internally before they reach any product.',
   },
-];
-
-export const ENGINEERING_STACK = [
-  { name: 'React', note: 'Frontend UI across every product' },
-  { name: 'TypeScript', note: 'Type-safe application code' },
-  { name: 'Vite', note: 'Build tooling' },
-  { name: 'Rust', note: 'Native performance layer where needed' },
-  { name: 'Tauri', note: 'Hybrid desktop packaging' },
 ];
 
 export const PRINCIPLES = [
   { n: '01', text: 'Cross-Platform Experience', body: 'Deliver seamless functionality across desktop, web, and mobile environments.' },
-  { n: '02', text: 'Creative & Visual Engagement', body: 'Create visually rich interfaces that are enjoyable and intuitive.' },
+  { n: '02', text: 'Creative and Visual Engagement', body: 'Create visually rich interfaces that are enjoyable and intuitive.' },
   { n: '03', text: 'Practical Functionality', body: 'Build tools that support productivity, entertainment, creativity, and everyday digital life.' },
-  { n: '04', text: 'Hybrid Technology', body: 'Use modern hybrid frameworks and native technology where it earns its place.' },
+  { n: '04', text: 'Hybrid Technology', body: 'Combine approaches freely so every product uses what suits it best.' },
   { n: '05', text: 'User-First Design', body: 'Respect privacy, simplicity, accessibility, and usability.' },
   { n: '06', text: 'Global Accessibility', body: 'Design products that can be localized and used by people around the world.' },
   { n: '07', text: 'Purposeful Innovation', body: 'Technology should solve a problem, improve an experience, or enable something meaningfully new.' },
 ];
 
+export const ENGINEERING_STANDARDS = [
+  { title: 'Local first by default', text: 'Data stays with the person unless they choose to share it. Online features are optional and say so when they need the internet.' },
+  { title: 'Privacy by design', text: 'No advertising SDKs and no hidden analytics in our apps. What a product collects is written down in plain language.' },
+  { title: 'Open where we can be', text: 'Released products are open source under the BlackBlazent License, so people can read what runs on their devices.' },
+  { title: 'Accessible and calm', text: 'Semantic structure, keyboard access and reduced motion support are requirements, not extras.' },
+];
+
 export const RESOURCES = [
-  { title: 'Documentation', body: 'Reference material for using BlackBlazent products.', href: '#' },
-  { title: 'Releases', body: 'Version history and changelogs as products ship updates.', href: '#' },
-  { title: 'Downloads', body: 'Get the current build of each shipped product.', href: '/products' },
-  { title: 'Blog', body: 'Notes on what we\u2019re building and why.', href: '#' },
-  { title: 'Support', body: 'Reach the team directly for help.', href: '/company/contact' },
-  { title: 'FAQ', body: 'Answers to common questions about the products and the organization.', href: '#' },
+  { title: 'Products', body: 'Downloads and release information for every product that is available today.', href: '/products' },
+  { title: 'Source code', body: 'Open source repositories and release history on GitHub.', href: 'https://github.com/BlackBlazent' },
+  { title: 'Privacy and terms', body: 'How this website handles information and the terms for using it.', href: '/legal/privacy' },
+  { title: 'Support', body: 'Reach the team directly for help with a product.', href: '/company/contact' },
+  { title: 'Careers', body: 'We are early stage and open to contributors and testers.', href: '/company/careers' },
+  { title: 'Community', body: 'Follow what we are building on our social channels.', href: '/company/contact' },
 ];
 
 export type CompanyPage = { slug: string; title: string; body: string[] };
@@ -166,9 +140,9 @@ export const COMPANY_PAGES: CompanyPage[] = [
     slug: 'about',
     title: 'About',
     body: [
-      'BlackBlazent is an independent software organization creating hybrid, cross-platform applications — designed with passion, purpose, and precision.',
-      'We are a startup software company focused on building modern, user-centered digital tools. From media and creative software to everyday utilities, we build across disciplines rather than inside a single category.',
-      'BlackBlazent is not limited to one software discipline. Our long-term direction is to develop advanced hybrid software that can cross conventional boundaries between disciplines, platforms, and technologies.',
+      'BlackBlazent is an independent software organization creating hybrid, cross-platform applications, designed with passion, purpose, and precision.',
+      'We build modern, user-centered digital tools. From media and creative software to security, government and defense technology, we work across disciplines instead of inside a single category.',
+      'Our long-term direction is advanced hybrid software that crosses the usual boundaries between disciplines, platforms, and technologies.',
     ],
   },
   {
@@ -176,14 +150,14 @@ export const COMPANY_PAGES: CompanyPage[] = [
     title: 'Vision',
     body: [
       'To build a new generation of digital software that makes advanced technology useful, accessible, creative, and meaningful to people everywhere.',
-      'We aim to become an independent technology organization known for unconventional, high-quality software products that cross disciplines, platforms, and traditional boundaries — an ambitious direction we\u2019re working toward, not a claim about where we already are.',
+      'We aim to be an independent technology organization known for unconventional, high quality software that crosses disciplines, platforms, and traditional boundaries. It is a direction we are working toward, not a claim about where we already are.',
     ],
   },
   {
     slug: 'mission',
     title: 'Mission',
     body: [
-      'BlackBlazent builds purposeful hybrid software that combines engineering, creativity, design, and emerging technology to solve real-world problems and create new digital experiences.',
+      'BlackBlazent builds purposeful hybrid software that combines engineering, creativity, design, and emerging technology to solve real problems and create new digital experiences.',
       'Build purposeful technology. Create useful experiences. Push software forward.',
     ],
   },
@@ -192,15 +166,15 @@ export const COMPANY_PAGES: CompanyPage[] = [
     title: 'Philosophy',
     body: [
       'Purpose over noise. Function over decoration. Design with intention. Technology without unnecessary boundaries. Innovation with a reason.',
-      'Every product is expected to justify its own existence before it justifies its design.',
+      'Every product is expected to justify its existence before it justifies its design.',
     ],
   },
   {
     slug: 'careers',
     title: 'Careers',
     body: [
-      'BlackBlazent is early-stage. We\u2019re open to contributors, testers, and idea-sharers who want to help build something from the ground up.',
-      'There are no listed openings yet. Reach out through the contact page if you want to be part of what we\u2019re building.',
+      'BlackBlazent is early stage. We are open to contributors, testers, and idea sharers who want to help build something from the ground up.',
+      'There are no listed openings yet. Reach out through the contact page if you want to be part of what we are building.',
     ],
   },
   {
@@ -211,32 +185,26 @@ export const COMPANY_PAGES: CompanyPage[] = [
 ];
 
 export const CONTACTS = [
-  { group: 'General & Administrative', items: [
+  { group: 'General and Administrative', items: [
     { label: 'Main', email: 'blackblazent@gmail.com' },
     { label: 'Customer Support', email: 'blackblazent.customer.service@gmail.com' },
-    { label: 'Billing & Payments', email: 'blackblazent.billing@gmail.com' },
-    { label: 'Legal / Compliance', email: 'blackblazent.legal@gmail.com' },
+    { label: 'Billing and Payments', email: 'blackblazent.billing@gmail.com' },
+    { label: 'Legal and Compliance', email: 'blackblazent.legal@gmail.com' },
     { label: 'General Inquiries', email: 'blackblazent.info@gmail.com' },
   ]},
-  { group: 'Development & Technical', items: [
+  { group: 'Development and Technical', items: [
     { label: 'Developer Support', email: 'blackblazent.dev@gmail.com' },
-    { label: 'Technical / Bug Reports', email: 'blackblazent.techsupport@gmail.com' },
+    { label: 'Technical and Bug Reports', email: 'blackblazent.techsupport@gmail.com' },
   ]},
-  { group: 'Marketing & Outreach', items: [
+  { group: 'Marketing and Outreach', items: [
     { label: 'Marketing', email: 'blackblazent.marketing@gmail.com' },
     { label: 'Partnerships', email: 'blackblazent.partners@gmail.com' },
-    { label: 'Press / Media', email: 'blackblazent.press@gmail.com' },
+    { label: 'Press and Media', email: 'blackblazent.press@gmail.com' },
   ]},
-  { group: 'Product & Feedback', items: [
+  { group: 'Product and Feedback', items: [
     { label: 'Product Feedback', email: 'blackblazent.feedback@gmail.com' },
     { label: 'Beta Testing', email: 'blackblazent.beta@gmail.com' },
   ]},
 ];
 
-export const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61565193375253' },
-  { label: 'TikTok', href: 'https://www.tiktok.com/@blackblazent' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@BlackBlazent' },
-];
-
-export const PLATFORMS = ['Desktop', 'Web', 'Mobile', 'Future Platforms'];
+export const PLATFORMS = ['Windows', 'macOS', 'Linux', 'Android', 'iOS', 'Android TV'];
