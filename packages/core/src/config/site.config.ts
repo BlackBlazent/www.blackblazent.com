@@ -34,3 +34,12 @@ export const SOCIAL_LINKS = [
   { label: 'TikTok', href: 'https://www.tiktok.com/@blackblazent' },
   { label: 'YouTube', href: 'https://www.youtube.com/@BlackBlazent' },
 ];
+
+/**
+ * Vineward legal text is a draft supplied with the product (see content/legal/vineward.*.ts).
+ * It contains items the responsible organization must still confirm. While true, those items are
+ * shown on the page as "Pending confirmation". Set to false once they are confirmed.
+ */
+export const VINEWARD_LEGAL = {
+  showPendingNotes: true,
+} as const;
