@@ -1,5 +1,7 @@
 import React from 'react';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+
 import { RESEARCH_AREAS } from '../content/site-data';
 import '../styles/pages.css';
 
@@ -8,8 +10,7 @@ const Research: React.FC = () => {
     <>
       <div className="page-hero">
         <Reveal>
-          <div className="eyebrow">Research</div>
-          <h1 className="h-display">Beyond today&rsquo;s software.</h1>
+          <OutlineHeading as="h1" size="page" text="Beyond today’s software." />
           <p className="body-copy" style={{ marginTop: 18 }}>
             Alongside released products, we explore ideas that may or may not become
             products. Every area below is labeled plainly as active development,
