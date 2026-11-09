@@ -1,0 +1,42 @@
+/* ===== Outlined headings v3.1.0: stroke only, transparent letters ===== */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.outline-heading {
+  --stroke: clamp(1px, 0.12vw, 1.6px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: var(--stroke) var(--text);
+  paint-order: stroke fill;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  font-synthesis: none;
+}
+.outline-heading--page { font-size: clamp(38px, 8.4vw, 112px); margin: 18px 0 26px; }
+.outline-heading--section { font-size: clamp(32px, 6.4vw, 88px); margin-top: 0; }
+.outline-heading--sub { font-size: clamp(24px, 3.6vw, 44px); margin-bottom: 8px; }
+.outline-heading-visual { display: inline; }
+.outline-rest { visibility: hidden; }
+.outline-caret {
+  display: inline-block;
+  width: 0;
+  height: 0.82em;
+  margin-left: 0.04em;
+  vertical-align: -0.08em;
+  border-left: var(--stroke) solid var(--blaze);
+  animation: caret 0.8s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+
+/* Stroke thickness reads heavier on small screens, so ease it. */
+@media (max-width: 600px) { .outline-heading { --stroke: 1px; letter-spacing: -0.01em; } }
+
+/* Forced colours / high contrast: fall back to solid, readable text. */
+@media (forced-colors: active) {
+  .outline-heading { color: CanvasText; -webkit-text-fill-color: CanvasText; -webkit-text-stroke: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .outline-caret { display: none; } }
