@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+
 import { COMPANY_PAGES, CONTACTS } from '../content/site-data';
 import '../styles/pages.css';
 
@@ -17,8 +19,7 @@ const CompanySub: React.FC = () => {
           <Link to="/about">About</Link> / {page.title}
         </div>
         <Reveal>
-          <div className="eyebrow">Company</div>
-          <h1 className="h-display">{page.title}</h1>
+          <OutlineHeading as="h1" size="page" text={page.title} />
           {page.body.map((p) => (
             <p className="body-copy" style={{ marginTop: 18 }} key={p}>{p}</p>
           ))}
