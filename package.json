@@ -1,7 +1,7 @@
 {
   "name": "com.blackblazent.mieyakourah",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "build:blackmusic": "pnpm --filter @blackblazent/blackmusic build",
-    "build:all": "pnpm build && pnpm build:blackmusic",
+    "build:all": "pnpm build && pnpm build:blackmusic && pnpm build:vineward",
     "dev:blackmusic": "pnpm --filter @blackblazent/blackmusic dev",
+    "build:vineward": "pnpm --filter @blackblazent/vineward build",
+    "dev:vineward": "pnpm --filter @blackblazent/vineward dev",
     "banners": "python3 tools/banners/generate.py"
   },
   "dependencies": {
