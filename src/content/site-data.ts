@@ -68,7 +68,43 @@ export const SOLUTION_AREAS: SolutionArea[] = [
     body:
       'Research and development focused on Artificial Intelligence and Artificial General Intelligence, carried out alongside the products and used where it earns its place in them.',
   },
+  {
+    id: 'embedded',
+    title: 'Embedded Systems',
+    summary: 'Software that lives inside devices',
+    body:
+      'Computing built into devices and machines, where software has to stay dependable on limited hardware with nobody there to restart it. This is a direction of our work. Nothing in this area is released yet.',
+  },
+  {
+    id: 'robotics',
+    title: 'Robotics',
+    summary: 'Intelligent machines that act',
+    body:
+      'Machines that sense, decide and move. Robotics joins our software with mechanical design, and it is where our interest in unsolved problems leaves the screen. It is a future area of work, not a released product.',
+  },
+  {
+    id: 'physical-ai',
+    title: 'Physical AI',
+    summary: 'Intelligence with a body',
+    body:
+      'Artificial intelligence that perceives and acts in the physical world through sensors and machines, instead of only on a screen. It builds on our AI research and on the embedded and robotics work above. It is a future area of work.',
+  },
+  {
+    id: 'wearables',
+    title: 'Wearable Devices',
+    summary: 'Technology worn close to people',
+    body:
+      'Devices worn on the body, designed to be useful and calm rather than demanding attention. This is a future area of work, and no wearable product has been released.',
+  },
 ];
+
+/** The central positioning for the Solutions page and the home overview. */
+export const SOLUTIONS_POSITIONING = {
+  title: 'From software to mechanical machines.',
+  lead: 'Innovation to solve unsolved problems, from software to mechanical machines.',
+  body:
+    'BlackBlazent works across software and physical technology: software innovation, mechanical and physical systems, embedded computing, intelligent machines, robotics, Physical AI and wearable technology. Each area below is marked by how real it is today, so a direction is never mistaken for a released product.',
+};
 
 export const HYBRID_POINTS = [
   { title: 'Capability', text: 'Software that runs where people are: on a desk, in a pocket, on a living room screen, or at the edge of a network.' },
