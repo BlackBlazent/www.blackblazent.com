@@ -49,7 +49,7 @@ export const LegalDocumentView: React.FC<DocProps> = ({ doc, crumbs, renderLink,
         <h1 className="legal-title">{doc.title}</h1>
         <p className="legal-intro">{doc.intro}</p>
         <dl className="legal-meta">
-          <div><dt>Effective</dt><dd>{doc.effectiveDate}</dd></div>
+          <div><dt>{doc.dateLabel ?? 'Effective'}</dt><dd>{doc.effectiveDate}</dd></div>
           {doc.appVersion && <div><dt>App version</dt><dd>{doc.appVersion}</dd></div>}
           <div><dt>Publisher</dt><dd>BlackBlazent</dd></div>
         </dl>
@@ -97,7 +97,7 @@ type PreviewProps = {
 /** Short preview card used on product pages. */
 export const LegalPreview: React.FC<PreviewProps> = ({ doc, banner, href, renderLink }) => (
   <article className="legal-preview">
-    <BannerMedia className="legal-preview-banner" source={{ type: 'image', src: banner, alt: '' }} />
+    <BannerMedia className="legal-preview-banner" source={{ type: 'image', src: doc.cover ?? banner, alt: '' }} />
     <div className="legal-preview-body">
       <div className="article-tag">{doc.id === 'privacy' ? 'Policy' : 'Terms'}</div>
       <h3 className="legal-preview-title">{doc.title}</h3>
