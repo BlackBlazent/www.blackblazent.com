@@ -1,0 +1,256 @@
+/* ===== Hero v3.1.0 =====
+   Stacking order, back to front:
+   0  .hero-bg        configurable image / video background
+   1  .hero-bg-scrim  keeps copy readable on any asset
+   2  .hero-glow      ambient light, follows the background
+   3  .hero-field     logo geometry + orbiting nodes
+   4  .hero-content   headline and actions
+   5  .hero-cue
+*/
+@property --ambient {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ff7a3d;
+}
+
+.hero {
+  --ambient: #ff7a3d;
+  --ambient-strength: 0.42;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 0 24px;
+  transition: --ambient var(--ambient-ms, 1600ms) ease;
+}
+
+/* ---- 0: background media ---- */
+.hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--void); contain: strict; }
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--hero-fade, 1600ms) ease;
+  will-change: opacity;
+}
+.hero-bg-media.is-shown { opacity: 1; }
+.hero-bg-media.is-first { transition: none; }
+.hero-bg.has-drift .hero-bg-media { animation: heroDrift 24s ease-in-out infinite alternate; }
+@keyframes heroDrift { from { transform: scale(1.02) translate3d(0, 0, 0); } to { transform: scale(1.09) translate3d(-1.2%, -0.8%, 0); } }
+
+/* ---- 1: scrim ---- */
+.hero-bg-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 48%, rgba(3, 3, 3, 0.0), rgba(3, 3, 3, 0.55) 100%),
+    linear-gradient(180deg, rgba(3, 3, 3, var(--scrim-top, 0.5)) 0%, rgba(3, 3, 3, 0.35) 38%, rgba(3, 3, 3, var(--scrim-bottom, 0.82)) 100%);
+}
+
+/* ---- 2: ambient light. Sits above the media and blends into it. ---- */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: calc(var(--ambient-strength) * 1.5);
+  background:
+    radial-gradient(48% 44% at 50% 46%, color-mix(in srgb, var(--ambient) 70%, transparent) 0%, transparent 72%),
+    radial-gradient(38% 34% at 10% 104%, color-mix(in srgb, var(--ambient) 46%, transparent) 0%, transparent 74%);
+  animation: glowBreath 9s ease-in-out infinite;
+}
+.hero[data-ambient='off'] .hero-glow { display: none; }
+@keyframes glowBreath { 0%, 100% { opacity: calc(var(--ambient-strength) * 1.6); } 50% { opacity: calc(var(--ambient-strength) * 2); } }
+
+/* ---- 3: logo geometry and orbit ---- */
+.hero-field {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.orbit {
+  --orbit-line: rgba(242, 241, 238, 0.2);
+  --orbit-line-strong: rgba(242, 241, 238, 0.42);
+  position: relative;
+  width: clamp(340px, min(104vh, 104svh, 118vw), 1040px);
+  aspect-ratio: 1;
+  container-type: inline-size;
+  pointer-events: none;
+  margin-top: 28px;
+}
+.orbit-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.orbit-outer { stroke: var(--orbit-line-strong); stroke-width: 1.4; }
+.orbit-circle { stroke-opacity: 1; }
+.orbit[data-palette='logo'] .orbit-circle { stroke-opacity: 0.55; }
+.orbit[data-palette='mono'] .orbit-circle { stroke: var(--orbit-line); }
+.orbit-dot--center { fill: rgba(242, 241, 238, 0.32); }
+.orbit-dot--cross { fill: var(--blaze); }
+.orbit-inner.is-spinning { transform-origin: 256px 256px; animation: orbitSpin linear infinite; }
+@keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+.orbit-nodes { position: absolute; inset: 0; }
+/* The arm is a zero-size point at the circle's centre. It turns, and the node sits on its end. */
+.orbit-arm {
+  --u: calc(100cqw / 512);
+  position: absolute;
+  left: var(--cx);
+  top: var(--cy);
+  width: 0;
+  height: 0;
+  transform: rotate(var(--a0)) translateX(calc(var(--r) * var(--u))) rotate(calc(-1 * var(--a0)));
+  animation: orbitTravel var(--period) linear infinite;
+  animation-direction: var(--dir);
+}
+@keyframes orbitTravel {
+  from { transform: rotate(var(--a0)) translateX(calc(var(--r) * var(--u))) rotate(calc(-1 * var(--a0))); }
+  to { transform: rotate(calc(var(--a0) + 360deg)) translateX(calc(var(--r) * var(--u))) rotate(calc(-1 * (var(--a0) + 360deg))); }
+}
+.orbit.is-paused .orbit-arm { animation-play-state: paused; }
+.orbit.pause-on-interact:has(.orbit-node:hover, .orbit-node:focus-visible) .orbit-arm { animation-play-state: paused; }
+
+.orbit-node {
+  --d: max(calc(var(--size) * var(--u)), 46px);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--d);
+  height: var(--d);
+  margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
+  padding: 0;
+  border-radius: 50%;
+  overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+  background: var(--surface-0);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 0 0 4px rgba(3, 3, 3, 0.55);
+  transition: transform 0.5s var(--ease), border-color 0.3s var(--ease), box-shadow 0.5s var(--ease), opacity 0.3s var(--ease);
+}
+.orbit-node img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.orbit-node:hover, .orbit-node:focus-visible { transform: scale(1.12); border-color: var(--blaze-line); box-shadow: 0 0 0 4px rgba(3, 3, 3, 0.55), 0 0 0 5px var(--blaze-soft); }
+.orbit-node:focus-visible { outline: 2px solid var(--blaze); outline-offset: 5px; }
+.orbit-node.is-focused { opacity: 0; transition: none; }
+.orbit-node-label {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--text);
+  background: rgba(3, 3, 3, 0.78);
+  padding: 5px 9px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+.orbit-node:hover .orbit-node-label, .orbit-node:focus-visible .orbit-node-label { opacity: 1; }
+
+/* ---- 4: copy. Clicks pass through text to the orbit; links and buttons stay clickable. ---- */
+.hero-content { position: relative; z-index: 4; padding-top: 76px; pointer-events: none; }
+.hero-content a, .hero-content button { pointer-events: auto; }
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(42px, 9vw, 108px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 2px 40px rgba(3, 3, 3, 0.6);
+}
+.hero-title .word--accent { color: var(--blaze); text-shadow: 0 0 60px var(--blaze-soft); }
+.hero-sub { margin: 28px auto 46px; max-width: 580px; font-size: 19px; line-height: 1.65; color: rgba(242, 241, 238, 0.74); text-shadow: 0 1px 24px rgba(3, 3, 3, 0.8); }
+
+/* ---- 5: scroll cue ---- */
+.hero-cue {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  z-index: 5;
+}
+.hero-cue-line { position: relative; width: 1px; height: 38px; background: var(--line); overflow: hidden; }
+.hero-cue-line::after { content: ''; position: absolute; left: 0; top: -100%; width: 1px; height: 100%; background: var(--blaze); animation: cue 2.4s var(--ease) infinite; }
+@keyframes cue { 0% { top: -100%; } 100% { top: 100%; } }
+
+/* ---- Focused orbit node ---- */
+.orbit-focus { position: fixed; inset: 0; z-index: 300; }
+.orbit-focus-backdrop { position: absolute; inset: 0; background: rgba(3, 3, 3, 0.88); backdrop-filter: blur(6px); }
+.orbit-focus-shell {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 72px 20px 28px;
+  overflow-y: auto;
+  pointer-events: none;
+}
+.orbit-focus-slot { width: min(76vw, 52vh, 480px); aspect-ratio: 1; flex: none; }
+.orbit-focus-slot.is-wide { width: min(92vw, 880px, calc((100vh - 280px) * 16 / 9)); aspect-ratio: 16 / 9; }
+.orbit-focus-caption { max-width: 620px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: auto; }
+.orbit-focus-tag { font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blaze); }
+.orbit-focus-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 3.4vw, 34px); letter-spacing: -0.01em; }
+.orbit-focus-text { font-size: 16px; line-height: 1.6; color: var(--text-muted); }
+.orbit-focus-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.orbit-focus-actions .btn { padding: 12px 22px; font-size: 12px; }
+.orbit-focus-stage {
+  position: fixed;
+  z-index: 1;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+}
+.orbit-focus-img, .orbit-focus-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
+
+@media (max-width: 900px) {
+  .orbit { width: clamp(320px, 128vw, 760px); margin-top: 0; }
+  .orbit-node-label { display: none; }
+}
+@media (max-width: 768px) {
+  .hero { padding: 0 20px; }
+  .hero-sub { font-size: 17px; margin: 22px auto 36px; }
+  .hero-cue { bottom: 22px; }
+  .orbit-focus-shell { padding-top: 64px; gap: 20px; }
+  .orbit-focus-actions .btn { flex: 1 1 140px; justify-content: center; }
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  .orbit-focus-shell { padding-top: 56px; gap: 14px; }
+  .orbit-focus-slot { width: min(40vh, 300px); }
+  .orbit-focus-slot.is-wide { width: min(64vw, calc((100vh - 200px) * 16 / 9)); }
+}
+
+/* ---- Reduced motion: no travel, nodes rest at their configured angle ---- */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-arm, .hero-glow, .hero-bg.has-drift .hero-bg-media, .orbit-inner.is-spinning { animation: none !important; }
+  .hero-bg-media { transition: none; }
+}
