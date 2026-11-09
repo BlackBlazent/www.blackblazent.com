@@ -161,7 +161,53 @@ const ALL_PRODUCTS: Product[] = [
     },
     platforms: ['android', 'ios'],
     license: 'Open Source, based on the BlackBlazent License',
-    sections: [],
+    // Written from the user's side. Every point comes from the documented Vineward features.
+    sections: [
+      {
+        id: 'features',
+        tag: 'Features',
+        title: 'Everything in one place',
+        banner: banner('vw-features'),
+        body: [
+          'Vineward replaces scattered notes, chats and spreadsheets with one app that shows who needs attention, what to do about it, and where every person stands.',
+          'It works the way ministry works: a quick note on the go, a daily habit ticked off, a person followed from first contact to being sent.',
+        ],
+        points: [
+          { title: 'See who needs attention', text: 'Home shows what is overdue, what is due today and who needs attention, so you start with what matters.' },
+          { title: 'Plan the work', text: 'Keep Personal, Ministry, Ladder, Follow-up, Formation and Leadership tasks, each with a date, time, repeat and notes. Add a task quickly, even offline.' },
+          { title: 'Keep your daily rhythm', text: 'Tick off Daily Devotional, Fasting, Prayer and Dawn Prayer Meeting day by day, and look back month by month.' },
+          { title: 'Hear announcements', text: 'A dedicated Announcement screen carries the webinar video for your community.' },
+          { title: 'Unlock materials', text: 'Pay, upload your receipt, and get your materials once it is verified. If verification cannot be reached, you can ask for a manual review instead.' },
+          { title: 'Sign in your way', text: 'Use your email or your Google account.' },
+        ],
+      },
+      {
+        id: 'journey',
+        tag: 'The journey',
+        title: 'From first contact to sent',
+        banner: banner('vw-journey'),
+        body: [
+          'Tracking is the center of Vineward. Every person is followed through four stages: Win, Consolidate, Disciple and Send. You always see where someone is and what the next step is.',
+        ],
+        points: [
+          { title: 'Win', text: 'Record a connection, who is responsible for them, the date and the next action.' },
+          { title: 'Consolidate', text: 'Follow up within 48 hours, and schedule Cell Group, OCG and Macro sessions with date, time, topic and headcount.' },
+          { title: 'Disciple', text: 'See each person’s progress as a percentage, and mark someone as Sure when they are ready for leadership.' },
+          { title: 'Send', text: 'Check leadership readiness across Formation, Consistency, Ministry and Leadership, with an overall score. Ministry and Leadership are activity-based estimates, and the app labels them that way.' },
+          { title: 'Connections and follow-ups', text: 'One overview of everyone you have connected with, and one list of open follow-ups and people who have gone quiet.' },
+        ],
+      },
+      {
+        id: 'care',
+        tag: 'Leadership',
+        title: 'Multiply with attention, not noise',
+        banner: banner('vw-care'),
+        body: [
+          'My 12 Monitoring shows each of your disciples’ weekly personal commitments and connection activity, and flags who needs attention. If your 12 are connecting with people but have held no OCG or Macro session in 30 days, Vineward suggests one. It is only a suggestion. It never schedules or blocks anything on its own.',
+          'Vineward emphasizes trends and attention signals rather than raw surveillance. Your direct leader can see your daily rhythm, invite counts, connections and ladder progress, and your email, password and exact location are never shown to other people.',
+        ],
+      },
+    ],
     media: {
       gallery: [],
     },
