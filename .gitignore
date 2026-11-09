@@ -13,6 +13,7 @@ task/*
 
 node_modules
 dist
+.env
 dist-ssr
 *.local
 
