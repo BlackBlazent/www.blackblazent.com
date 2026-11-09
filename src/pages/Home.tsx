@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { BannerMedia, getEnabledProducts, productHref } from '@blackblazent/core';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+import HeroBackground from '../hero/HeroBackground';
+import OrbitalSystem from '../hero/OrbitalSystem';
+import { HERO_AMBIENT, HERO_BACKGROUND, HERO_COPY } from '../config/hero.config';
+import { ORBIT, ORBIT_NODES } from '../config/orbit.config';
+import { STAGE_LABEL, getCategory } from '../config/categories.config';
 import {
   HYBRID_POINTS,
   PLATFORMS,
@@ -11,6 +17,7 @@ import {
   SOLUTION_AREAS,
 } from '../content/site-data';
 import '../styles/home.css';
+import '../styles/hero.css';
 
 /** Product links stay inside the site, or leave for the product address when configured as external. */
 const ProductAnchor: React.FC<{ id: Parameters<typeof productHref>[0]; className: string; label: string; children: React.ReactNode }> = ({ id, className, label, children }) => {
@@ -20,50 +27,43 @@ const ProductAnchor: React.FC<{ id: Parameters<typeof productHref>[0]; className
     : <Link to={href} className={className} aria-label={label}>{children}</Link>;
 };
 
-const HERO_WORDS = ['Software', 'beyond', 'the', 'expected'];
-
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const [ambient, setAmbient] = useState(HERO_AMBIENT.fallback);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
-  const fieldY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 200]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 320]);
+  const fieldY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 140]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 90]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  const style = {
+    '--ambient': ambient,
+    '--ambient-strength': HERO_AMBIENT.intensity,
+    '--ambient-ms': `${HERO_AMBIENT.transitionMs}ms`,
+  } as React.CSSProperties;
+
   return (
-    <section className="hero" ref={ref}>
-      <motion.div className="hero-glow" style={{ y: glowY }} aria-hidden="true" />
-      <motion.div className="hero-field" style={{ y: fieldY }} aria-hidden="true">
-        <div className="hero-ring hero-ring--a" />
-        <div className="hero-ring hero-ring--b" />
-        <div className="hero-ring hero-ring--c" />
-        <span className="hero-orbit hero-orbit--a" />
-        <span className="hero-orbit hero-orbit--b" />
+    <section className="hero" ref={ref} style={style} data-ambient={HERO_AMBIENT.mode}>
+      <HeroBackground config={HERO_BACKGROUND} ambient={HERO_AMBIENT} onAmbient={setAmbient} />
+      <div className="hero-glow" aria-hidden="true" />
+      <motion.div className="hero-field" style={{ y: fieldY }}>
+        <OrbitalSystem config={ORBIT} nodes={ORBIT_NODES} />
       </motion.div>
 
       <motion.div className="hero-content" style={{ y: contentY, opacity: contentOpacity }}>
-        <motion.div
-          className="hero-kicker"
-          initial={reduce ? undefined : { opacity: 0, letterSpacing: '0.9em' }}
-          animate={reduce ? undefined : { opacity: 1, letterSpacing: '0.33em' }}
-          transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Black &rarr; Energy &rarr; Creation
-        </motion.div>
-        <h1 className="hero-title" aria-label="Software beyond the expected">
-          {HERO_WORDS.map((w, i) => (
+        <h1 className="hero-title" aria-label={HERO_COPY.titleLabel}>
+          {HERO_COPY.title.map((w, i) => (
             <span className="word-mask" key={w}>
               <motion.span
-                className={`word${w === 'expected' ? ' word--accent' : ''}`}
+                className={`word${w === HERO_COPY.accentWord ? ' word--accent' : ''}`}
                 initial={reduce ? undefined : { y: '115%', rotate: 3 }}
                 animate={reduce ? undefined : { y: '0%', rotate: 0 }}
                 transition={{ duration: 1, delay: 0.25 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
               >
                 {w}
               </motion.span>
-              {i < HERO_WORDS.length - 1 ? ' ' : ''}
+              {i < HERO_COPY.title.length - 1 ? ' ' : ''}
             </span>
           ))}
         </h1>
@@ -73,8 +73,7 @@ const Hero: React.FC = () => {
           animate={reduce ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.95 }}
         >
-          BlackBlazent builds purposeful hybrid software that combines engineering,
-          creativity, design, and future oriented technology.
+          {HERO_COPY.sub}
         </motion.p>
         <motion.div
           className="hero-actions"
@@ -95,7 +94,8 @@ const Hero: React.FC = () => {
   );
 };
 
-const MARQUEE_A = ['Consumer Applications', 'Government Applications', 'Security and Forensics', 'Defense Technology', 'Artificial Intelligence', 'Artificial General Intelligence'];
+const MARQUEE_A = ['Consumer Applications', 'Government Applications', 'Security and Forensics', 'Defense Technology', 'Artificial Intelligence', 'Embedded Systems', 'Robotics', 'Physical AI', 'Wearable Devices'];
+const stageOf = (id: string) => { const c = getCategory(id); return c ? STAGE_LABEL[c.stage] : ''; };
 const MARQUEE_B = ['Hybrid by design', 'Local first', 'Open source', 'Cross-platform', 'Purpose over noise', 'Built with precision'];
 
 const MarqueeRow: React.FC<{ items: string[]; reverse?: boolean }> = ({ items, reverse }) => (
@@ -175,8 +175,7 @@ const Home: React.FC = () => {
 
       <section className="home-section">
         <Reveal>
-          <div className="eyebrow">The Organization</div>
-          <h2 className="h-display home-section-title">Built with purpose.</h2>
+          <OutlineHeading text="Built with purpose." />
         </Reveal>
         <Reveal delay={0.1}>
           <p className="body-copy" style={{ marginTop: 22 }}>
@@ -192,24 +191,22 @@ const Home: React.FC = () => {
 
       <div>
         <Reveal className="home-section" distance={16}>
-          <div className="eyebrow">Products</div>
-          <h2 className="h-display home-section-title">Software for the real world.</h2>
+          <OutlineHeading text="Software for the real world." />
         </Reveal>
         <ProductRail />
       </div>
 
       <section className="home-section">
         <Reveal>
-          <div className="eyebrow">Solutions</div>
-          <h2 className="h-display home-section-title">Where we work.</h2>
+          <OutlineHeading text="Where we work." />
         </Reveal>
         <div className="area-list">
-          {SOLUTION_AREAS.map((a, i) => (
+          {SOLUTION_AREAS.filter((a) => getCategory(a.id)?.visible !== false).map((a, i) => (
             <Reveal key={a.id} from={i % 2 ? 'right' : 'left'} distance={60} delay={0.04}>
               <Link to={`/solutions#${a.id}`} className="area-row">
                 <span className="area-num">{String(i + 1).padStart(2, '0')}</span>
                 <span className="area-title">{a.title}</span>
-                <span className="area-sum">{a.summary}</span>
+                <span className="area-sum">{a.summary}{stageOf(a.id) && <em className={`area-stage area-stage--${getCategory(a.id)?.stage}`}>{stageOf(a.id)}</em>}</span>
                 <span className="area-arrow" aria-hidden="true">&rarr;</span>
               </Link>
             </Reveal>
@@ -219,8 +216,7 @@ const Home: React.FC = () => {
 
       <section className="home-section hybrid">
         <Reveal>
-          <div className="eyebrow">Hybrid Design</div>
-          <h2 className="h-display home-section-title">One approach. No ceiling.</h2>
+          <OutlineHeading text="One approach. No ceiling." />
         </Reveal>
         <Reveal delay={0.1}>
           <p className="body-copy" style={{ marginTop: 22 }}>
@@ -243,8 +239,7 @@ const Home: React.FC = () => {
 
       <section className="home-section">
         <Reveal>
-          <div className="eyebrow">Research</div>
-          <h2 className="h-display home-section-title">Beyond today&rsquo;s software.</h2>
+          <OutlineHeading text="Beyond today’s software." />
         </Reveal>
         <Reveal delay={0.1}>
           <p className="body-copy" style={{ marginTop: 22, marginBottom: 36 }}>
@@ -268,8 +263,7 @@ const Home: React.FC = () => {
 
       <section className="home-section">
         <Reveal>
-          <div className="eyebrow">Philosophy</div>
-          <h2 className="h-display home-section-title">Seven principles.</h2>
+          <OutlineHeading text="Seven principles." />
         </Reveal>
         <div className="principle-list">
           {PRINCIPLES.map((p, i) => (
@@ -288,8 +282,7 @@ const Home: React.FC = () => {
 
       <section className="home-section">
         <Reveal>
-          <div className="eyebrow">Platforms</div>
-          <h2 className="h-display home-section-title">One idea. Every environment.</h2>
+          <OutlineHeading text="One idea. Every environment." />
         </Reveal>
         <div className="platform-row">
           {PLATFORMS.map((p, i) => (
@@ -301,7 +294,7 @@ const Home: React.FC = () => {
       </section>
 
       <section className="closing">
-        <Reveal><h2 className="h-display">The next application hasn&rsquo;t been built yet.</h2></Reveal>
+        <Reveal><OutlineHeading text="The next application hasn’t been built yet." /></Reveal>
         <Reveal delay={0.1}><p className="body-copy">We are building toward it.</p></Reveal>
         <Reveal delay={0.2}>
           <div className="hero-actions">
