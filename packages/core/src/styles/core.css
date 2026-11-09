@@ -268,6 +268,18 @@ ul { list-style: none; }
   gap: 40px;
   padding-bottom: 56px;
 }
+.footer-intel {
+  margin: 10px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.footer-intel-mark {
+  width: 120px;
+  border-radius: 20px;
+  position: relative;
+  height: 120px;
+}
 .footer-brand .nav-mark { margin-bottom: 16px; }
 .footer-brand p {
   font-size: 14px;
@@ -481,7 +493,7 @@ a.download-row:hover { background: var(--blaze-soft); padding-left: 14px; paddin
 .legal-table-wrap td:first-child { color: var(--text); }
 
 @media (max-width: 960px) {
-  .legal-layout { grid-template-columns: 1fr; gap: 40px; }
+  .legal-layout { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .legal-toc { position: static; }
   .downloads, .legal-previews, .article-points { grid-template-columns: 1fr; }
   .moodboard { column-count: 2; }
@@ -500,3 +512,51 @@ a.download-row:hover { background: var(--blaze-soft); padding-left: 14px; paddin
 /* Slide in animations start off screen; clip so they never create sideways scroll. */
 .page { overflow-x: clip; }
 html, body { max-width: 100%; overflow-x: clip; }
+
+
+/* ===== v3.1.0: legal pages, responsive structure =====
+   Root causes of the old mobile overflow: a bare `1fr` grid column (min-content sized, so a wide table
+   stretched the whole page), a 560px minimum table, and default list markers on the contents list. */
+.legal { overflow-x: clip; }
+.legal-head, .legal-body, .legal-prose, .legal-chapter, .legal-layout > * { min-width: 0; }
+.legal-title { overflow-wrap: anywhere; hyphens: auto; }
+.legal-prose p, .legal-prose li, .legal-prose h3, .article-title { overflow-wrap: anywhere; }
+.legal-toc ol { list-style: none; }
+.legal-toc li { display: grid; grid-template-columns: 2.2ch minmax(0, 1fr); align-items: baseline; padding-left: 14px; }
+.legal-toc li::before { content: counter(toc) '.'; font-family: var(--font-display); font-size: 12px; color: var(--text-faint); }
+.legal-toc a { padding-left: 4px; }
+.legal-chapter .article-banner { width: 100%; max-width: 100%; }
+.legal-meta > div { min-width: 0; }
+
+@media (max-width: 960px) {
+  /* The contents list becomes a compact, scroll-safe block above the document. */
+  .legal-toc { border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px 8px; background: var(--surface-0); }
+  .legal-toc ol { border-left: 0; }
+  .legal-toc a { padding: 10px 0; }
+}
+
+@media (max-width: 768px) {
+  .legal { padding: 104px 20px 64px; }
+  .legal-head { margin-bottom: 44px; }
+  .legal-title { font-size: clamp(34px, 11vw, 52px); margin: 14px 0 18px; }
+  .legal-intro { font-size: 17px; }
+  .legal-meta { gap: 14px 28px; margin-top: 24px; padding-top: 20px; }
+  .legal-body { gap: 64px; }
+  .legal-prose p, .legal-prose li { font-size: 16px; line-height: 1.68; }
+  .legal-prose h3 { font-size: 19px; }
+  .article-title { font-size: clamp(26px, 8vw, 38px); }
+  .article-banner { margin: 22px 0 24px; border-radius: 16px; }
+  .legal-preview-body { padding: 22px 20px 26px; }
+  .legal-preview-body .btn, .legal-prose .btn { width: 100%; justify-content: center; }
+
+  /* Tables become stacked cards: nothing scrolls sideways and nothing is clipped. */
+  .legal-table-wrap { overflow: visible; border: 0; border-radius: 0; }
+  .legal-table-wrap table, .legal-table-wrap tbody, .legal-table-wrap tr, .legal-table-wrap td { display: block; width: 100%; min-width: 0; }
+  .legal-table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  .legal-table-wrap tr { border: 1px solid var(--line); border-radius: 14px; background: var(--surface-0); margin-bottom: 12px; padding: 4px 16px; }
+  .legal-table-wrap td { border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 15px; }
+  .legal-table-wrap td:last-child { border-bottom: 0; }
+  .legal-table-wrap td::before { content: attr(data-label); display: block; font-family: var(--font-display); font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 4px; }
+  .legal-table-wrap td:first-child { color: var(--text); }
+}
+@media (max-width: 380px) { .legal { padding-left: 16px; padding-right: 16px; } }
