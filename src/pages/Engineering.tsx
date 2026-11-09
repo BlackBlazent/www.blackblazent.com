@@ -1,5 +1,7 @@
 import React from 'react';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+
 import { ENGINEERING_STANDARDS, HYBRID_POINTS } from '../content/site-data';
 import '../styles/pages.css';
 import '../styles/home.css';
@@ -9,8 +11,7 @@ const Engineering: React.FC = () => {
     <>
       <div className="page-hero">
         <Reveal>
-          <div className="eyebrow">Engineering</div>
-          <h1 className="h-display">One approach. No ceiling.</h1>
+          <OutlineHeading as="h1" size="page" text="One approach. No ceiling." />
           <p className="body-copy" style={{ marginTop: 18 }}>
             BlackBlazent operates beyond the limits of a single software stack.
             We choose what fits the problem, then join the parts so a product
@@ -20,7 +21,7 @@ const Engineering: React.FC = () => {
       </div>
 
       <div className="section">
-        <Reveal><div className="eyebrow">Hybrid Design</div></Reveal>
+        <OutlineHeading size="sub" text="Hybrid Design" />
         <div className="hybrid-grid">
           {HYBRID_POINTS.map((h, i) => (
             <Reveal key={h.title} delay={i * 0.07} from={i % 2 ? 'right' : 'left'} distance={34}>
@@ -34,7 +35,7 @@ const Engineering: React.FC = () => {
       </div>
 
       <div className="section">
-        <Reveal><div className="eyebrow">Standards</div></Reveal>
+        <OutlineHeading size="sub" text="Standards" />
         <div className="kv-list">
           {ENGINEERING_STANDARDS.map((s, i) => (
             <Reveal key={s.title} delay={i * 0.05}>
