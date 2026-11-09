@@ -1,6 +1,6 @@
 {
   "name": "@blackblazent/core",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "type": "module",
   "description": "Shared configuration, content, components and styles for the BlackBlazent website and product sites.",
