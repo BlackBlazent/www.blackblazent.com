@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+
 import { RESOURCES } from '../content/site-data';
 import '../styles/pages.css';
 
@@ -11,8 +13,7 @@ const Resources: React.FC = () => {
     <>
       <div className="page-hero">
         <Reveal>
-          <div className="eyebrow">Resources</div>
-          <h1 className="h-display">Everything to work with BlackBlazent.</h1>
+          <OutlineHeading as="h1" size="page" text="Everything to work with BlackBlazent." />
         </Reveal>
       </div>
 
