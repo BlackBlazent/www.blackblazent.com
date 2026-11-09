@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
+import OutlineHeading from '../components/OutlineHeading';
+
 import { COMPANY_PAGES } from '../content/site-data';
 import '../styles/pages.css';
 
@@ -12,8 +14,7 @@ const Company: React.FC = () => {
     <>
       <div className="page-hero">
         <Reveal>
-          <div className="eyebrow">Company</div>
-          <h1 className="h-display">{about.title}</h1>
+          <OutlineHeading as="h1" size="page" text={about.title} />
           {about.body.map((p) => (
             <p className="body-copy" style={{ marginTop: 18 }} key={p}>{p}</p>
           ))}
