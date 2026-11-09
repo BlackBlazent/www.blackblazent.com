@@ -203,3 +203,30 @@
   .section { padding: 64px 22px; }
   .nav { padding: 0 20px; }
 }
+
+/* ===== Footer v3.1.0: faith line, GitHub, Black Corp: Intelligence ===== */
+.footer-faith { margin-top: 18px; font-family: var(--font-display); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--text) !important; }
+.footer-col a[target='_blank']::after { content: ' \2197'; color: var(--text-faint); font-size: 12px; }
+.footer-intel {
+  position: relative;
+  max-width: var(--container);
+  margin: 0 auto 72px;
+  padding: clamp(32px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px 48px;
+  align-items: end;
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+  isolation: isolate;
+}
+.footer-intel-mark { position: absolute; right: -6%; top: 50%; width: min(520px, 70%); transform: translateY(-50%); z-index: -1; fill: none; stroke: var(--line); stroke-width: 1.2; opacity: 0.9; }
+.footer-intel-kicker { font-family: var(--font-display); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 18px; }
+.footer-intel-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -0.025em; text-transform: uppercase; display: flex; flex-direction: column; }
+.footer-intel-title span:last-child { color: var(--blaze); }
+.footer-intel-purpose { margin-top: 20px; max-width: 560px; font-size: 16px; line-height: 1.65; color: var(--text-muted); }
+.footer-intel-cta { white-space: normal; text-align: left; }
+@media (max-width: 760px) {
+  .footer-intel { grid-template-columns: minmax(0, 1fr); margin-bottom: 52px; }
+  .footer-intel-cta { justify-content: space-between; }
+}
