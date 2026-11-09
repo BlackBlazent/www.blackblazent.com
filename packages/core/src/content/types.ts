@@ -75,6 +75,10 @@ export type LegalDoc = {
   owner: string;
   title: string;
   effectiveDate: string;
+  /** Label for the date. Defaults to 'Effective'. Drafts use 'Status'. */
+  dateLabel?: string;
+  /** Banner for the preview card on the product page. */
+  cover?: string;
   appVersion?: string;
   intro: string;
   /** Short points shown in the preview card on the product page. */
