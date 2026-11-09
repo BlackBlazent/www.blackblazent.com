@@ -44,3 +44,16 @@ BlackMusic media: add the demo video and up to eight screenshots to `media` in `
 
 Main site: `/home`, `/products`, `/solutions`, `/research`, `/engineering`, `/resources`, `/about`, `/company/:slug`, `/legal/privacy`, `/legal/terms`. Product routes: `/blackmusic`, `/blackmusic/privacy`, `/blackmusic/terms`, `/blackmusic/delete-account`, `/vineward`.
 BlackMusic site: `/`, `/privacy`, `/terms`, `/delete-account`.
+
+## 3.1.0
+
+- **Hero**: configurable image/video rotation (`src/config/hero.config.ts`), ambient light that follows the current background, and a logo-geometry orbital system built in SVG (`src/config/orbit.config.ts`, `src/hero/`).
+- **Headings**: outlined, typed section headings (`OutlineHeading`, `src/config/headings.config.ts`). Eyebrow labels removed from section headers.
+- **Products and Solutions**: nine categories, each with an honest stage label (`src/config/categories.config.ts`, `SOLUTION_AREAS`).
+- **Footer**: faith line, GitHub, and the Black Corp: Intelligence banner (`src/config/footer.config.ts`). Set `VITE_BLACK_CORP_URL`.
+- **Vineward**: full product page, Privacy Policy and Terms (draft, with pending-confirmation notes, `VINEWARD_LEGAL`), new artwork, and a dedicated `apps/vineward` site (`pnpm dev:vineward`, `pnpm build:vineward`).
+- **Legal pages**: mobile overflow fixed; tables become stacked cards on small screens.
+- Artwork generators: `tools/art/` (Playwright + Pillow).
+
+### Adding hero media or orbit videos
+Put files in `public/media/hero/` or `public/media/orbit/`, then add an item in the matching config file. Each config has instructions at the top.
