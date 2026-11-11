@@ -83,7 +83,7 @@
 .orbit {
   --orbit-line: rgba(242, 241, 238, 0.2);
   --orbit-line-strong: rgba(242, 241, 238, 0.42);
-  position: relative;
+  position: absolute; /*relative*/
   width: clamp(340px, min(104vh, 104svh, 118vw), 1040px);
   aspect-ratio: 1;
   container-type: inline-size;
